@@ -43,7 +43,7 @@
     "wb-cutting": "github:oknosoft/genetic-cutting#20c237c78acfb70210c91a38b536ae1d4776bde9",
     "wb-paperless": "github:oknosoft/paperless#619a77020a719c75319a181ae91beb657f4719b5",
     "wb-parametric": "github:oknosoft/windowbuilder-parametric#2d7778c68ddc7584bf112582956d2356b7c18e5f",
-    "wb-planning": "github:oknosoft/windowbuilder-planning#2c82ecf2a64065fbb4dfc1af45ca966e6007e766",
+    "wb-planning": "github:oknosoft/windowbuilder-planning#ae64704b4d74338f28d3637a99aaa8dbb54af3c5",
     "wb-reports": "github:oknosoft/windowbuilder-reports#d327b573226a974e64322514134ddcf0d7a773ea",
     "yamljs": "^0.3.0"
   },
