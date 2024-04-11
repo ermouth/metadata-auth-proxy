@@ -25,7 +25,7 @@
   "homepage": "https://adm.oknosoft.ru",
   "proxy": "http://localhost:3016/",
   "dependencies": {
-    "@node-saml/passport-saml": "^4.0",
+    "@node-saml/passport-saml": "^5.0",
     "canvas": "^2.11",
     "compression": "^1.7.4",
     "http-proxy": "^1.18.1",
@@ -39,7 +39,7 @@
     "rate-limiter-flexible": "^2.4",
     "serve-handler": "^6.1.5",
     "unzipper": "^0.10.14",
-    "wb-core": "github:oknosoft/windowbuilder-core#2463373a8528a0ca3faaacb17c30f1519a32adf5",
+    "wb-core": "github:oknosoft/windowbuilder-core#e0b0a7827027b5fb820f92b57a6120be6473579d",
     "wb-paperless": "github:oknosoft/paperless#59dba5a74aa65bf8a148526c3270892342fb447d",
     "wb-parametric": "github:oknosoft/windowbuilder-parametric#2d7778c68ddc7584bf112582956d2356b7c18e5f",
     "wb-planning": "github:oknosoft/windowbuilder-planning#4e87aff755bb4317fc6725227def48320f7bc122",
