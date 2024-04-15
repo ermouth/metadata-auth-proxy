@@ -77,7 +77,7 @@ module.exports = function (log, is_common) {
     pouch_doc_ram_loaded() {
       ram_changes($p, log, is_common);
       return linked_templates($p, log)
-        .then(() => is_common ? null : require('wb-reports/server/windowbuilder/accumulation')($p))
+        .then(() => require('wb-reports/server/windowbuilder/accumulation')($p, log))
         .then(() => {
           log(`load to ram: complete`);
           pouch.emit('pouch_complete_loaded');

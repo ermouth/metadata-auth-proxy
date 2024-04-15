@@ -11,7 +11,6 @@ const fs = require('fs');
 const {resolve} = require('path');
 const check_mdm = require('./check_mdm');
 const dyn_mdm = require('./dyn_mdm');
-const fetch = require('node-fetch');
 require('../http/promisify');
 
 // корректировка данных
