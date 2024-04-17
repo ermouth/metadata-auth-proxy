@@ -12,7 +12,6 @@ const {resolve} = require('path');
 const check_mdm = require('./check_mdm');
 const load_predefined = require('./load_predefined');
 const dyn_mdm = require('./dyn_mdm');
-const fetch = require('node-fetch');
 require('../http/promisify');
 
 // корректировка данных

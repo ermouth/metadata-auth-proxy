@@ -1,5 +1,4 @@
 
-const fetch = require('node-fetch');
 const conf = require('../../config/app.settings')();
 
 module.exports = function check_auth(req) {

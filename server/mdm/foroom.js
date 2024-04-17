@@ -5,7 +5,6 @@
  * Created by Evgeniy Malyarov on 19.03.2020.
  */
 
-const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 const unzip = require('unzipper');

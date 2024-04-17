@@ -3,7 +3,6 @@
  */
 
 const querystring = require('querystring');
-const fetch = require('node-fetch');
 const check_auth = require('../auth/check_auth');
 
 module.exports = function pay($p, log, route) {

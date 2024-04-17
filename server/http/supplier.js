@@ -8,7 +8,6 @@
 
 const {end404} = require('./end');
 const getBody = require('./raw-body');
-const fetch = require('node-fetch');
 
 module.exports = function supplier($p, log, route) {
 

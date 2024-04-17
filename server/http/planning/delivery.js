@@ -2,7 +2,6 @@
  * Created 09.07.2020.
  */
 
-const fetch = require('node-fetch');
 const nearest_date = require('./nearest_date');
 
 module.exports = function delivery({$p, log, route, acc}) {

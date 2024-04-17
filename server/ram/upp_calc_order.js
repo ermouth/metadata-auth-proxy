@@ -6,7 +6,6 @@
  * Created by Evgeniy Malyarov on 06.08.2020.
  */
 
-const fetch = require('node-fetch');
 const dt = 47000;
 
 module.exports = function upp_calc_order($p, log, route) {

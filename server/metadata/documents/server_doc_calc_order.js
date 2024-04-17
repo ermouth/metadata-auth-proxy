@@ -1,5 +1,4 @@
 
-const fetch = require('node-fetch');
 const {Headers} = fetch;
 
 module.exports = function ({DocCalc_order, classes: {DocObj}, job_prm: {server, user_node}, utils, cat, doc}, log) {
