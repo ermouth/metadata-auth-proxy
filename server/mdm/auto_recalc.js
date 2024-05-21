@@ -178,12 +178,14 @@ module.exports = function auto_recalc($p, log) {
 
         if(types.includes('doc.nom_prices_setup')) {
           // обновляем цены
-          await pricing.deffered_load_prices(log, true);
+          if(!job_prm.silent_prices) {
+            await pricing.deffered_load_prices(log, true);
+            if(!types.includes('cat.nom')) {
+              types.push('cat.nom');
+            }
+          }
           const index = types.indexOf('doc.nom_prices_setup');
           types.splice(index, 1);
-          if(!types.includes('cat.nom')) {
-            types.push('cat.nom');
-          }
         }
 
         for(const aref in abonents.by_ref) {
