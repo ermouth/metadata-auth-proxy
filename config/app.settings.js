@@ -69,20 +69,18 @@ module.exports = function settings(prm = {}) {
     // глубина истории цен
     price_depth: 3,
     skip_prices: Boolean(process.env.SKIP_PRICES),
+    silent_prices: Boolean(process.env.SILENT_PRICES),
 
     server: {
       prefix: '/adm/api',             // Mount path, no trailing slash
       port: process.env.PORT || 3016, // Port
-      start_common: Boolean(process.env.START_COMMON),
       restrict_archive: Boolean(process.env.RESTRICT_ARCHIVE),
-      common_url: process.env.RAMURL || 'http://localhost:3026',
       quick_url: process.env.QUICKURL || 'https://quick.ecookna.ru',
       maxpost: 40 * 1024 * 1024,      // Max size of POST request
       abonents: process.env.ABONENTS ? JSON.parse(process.env.ABONENTS) : [21, 20], // абоненты - источники
       branches: process.env.BRANCHES ? JSON.parse(process.env.BRANCHES) : null,     // список отделов можно ограничить
       single_db: Boolean(process.env.SINGLE_DB),                                    // использовать основную базу doc вместо перебора баз абонентов
       no_mdm: Boolean(process.env.NOMDM),
-      no_background: Boolean(process.env.NOBACKGROUND),
       year: process.env.YEAR ? parseFloat(process.env.YEAR) : new Date().getFullYear(),
       disable_mdm: Boolean(process.env.DISABLEMDM),
       browser_only: Boolean(process.env.BROWSER_ONLY),

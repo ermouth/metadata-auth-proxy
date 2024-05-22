@@ -7,18 +7,14 @@
  */
 
 
-module.exports = function ram_changes({adapters: {pouch}, pricing, cat}, log, is_common) {
+module.exports = function ram_changes({adapters: {pouch}, job_prm, pricing, cat}, log, is_common) {
 
-  pouch.local.ram.changes({
-    since: 'now',
-    live: true,
-    include_docs: true,
-  })
+  pouch.local.ram.changes({since: 'now', live: true,include_docs: true})
     .on('change', (change) => {
 
       // обновляем ram
       if(change.id.startsWith('doc.nom_prices_setup')) {
-        if(!cat.abonents.price_types.map(v => v.valueOf()).includes(change.doc.price_type)) {
+        if(job_prm.silent_prices || !cat.abonents.price_types.map(v => v.valueOf()).includes(change.doc.price_type)) {
           return;
         }
         if(!is_common) {
