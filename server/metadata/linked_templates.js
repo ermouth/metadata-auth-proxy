@@ -9,7 +9,7 @@
 
 module.exports = function linked_templates({cat, doc, job_prm, adapters: {pouch}, utils}, log) {
 
-  function by_range({bookmark, step=1, limit=100}) {
+  function by_range({bookmark, step=1, limit=200}) {
 
     (log || console.log)(`load templates: page №${step}`);
 
