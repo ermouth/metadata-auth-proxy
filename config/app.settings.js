@@ -70,6 +70,7 @@ module.exports = function settings(prm = {}) {
     price_depth: 3,
     skip_prices: Boolean(process.env.SKIP_PRICES),
     silent_prices: Boolean(process.env.SILENT_PRICES),
+    skip_templates: Boolean(process.env.SKIP_TEMPLATES),
 
     server: {
       prefix: '/adm/api',             // Mount path, no trailing slash

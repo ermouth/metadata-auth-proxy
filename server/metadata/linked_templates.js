@@ -28,7 +28,7 @@ module.exports = function linked_templates({cat, doc, job_prm, adapters: {pouch}
         for (const doc of res.docs) {
           pouch.load_changes({docs: [doc]});
         }
-        return res.docs.length === limit ? by_range({bookmark, step, limit}) : 'done';
+        return (!job_prm.skip_templates && res.docs.length === limit) ? by_range({bookmark, step, limit}) : 'done';
       });
   }
 

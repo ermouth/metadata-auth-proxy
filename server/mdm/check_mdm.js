@@ -53,9 +53,6 @@ module.exports = function check_mdm({o, name, abonent, branch, abranches, job_pr
   else if(name === 'cat.organizations') {
     return abranches.some((branch) => branch.organizations.find({acl_obj: o}));
   }
-  else if(name === 'cat.contracts') {
-    return abranches.some((branch) => branch.partners.find({acl_obj: o.owner}) && branch.organizations.find({acl_obj: o.organization}));
-  }
   else if(name === 'cat.divisions') {
     const rows = o._children().concat(o);
     return rows.some((acl_obj) => abranches.some((branch) => branch.divisions.find({acl_obj})));

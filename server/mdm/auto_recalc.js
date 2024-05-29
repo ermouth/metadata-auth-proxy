@@ -349,7 +349,15 @@ module.exports = function auto_recalc($p, log) {
         });
         //log(`Recaled ${zone}:${suffix === 'common' ? '0000' : suffix} ${name}`);
 
-        const text = JSON.stringify({name, rows}) + '\r\n';
+        let text;
+        try {
+          text = JSON.stringify({name, rows}) + '\r\n';
+        }
+        catch (e) {
+          e.message += ` ${name}`;
+          log(e);
+          continue;
+        }
         const tag = tags[name];
         // если данные реально изменены - записываем
         if(!tag || tag.count !== rows.length || tag.size !== text.length || tag.crc32 !== utils.crc32(text) || !fs.existsSync(fname)) {
