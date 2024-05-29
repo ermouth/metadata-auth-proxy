@@ -3,7 +3,7 @@ const {common} = require('./index');
 
 module.exports = function check_mdm({o, name, abonent, branch, abranches, job_prm}) {
 
-  if(!o) {
+  if(!o || ['cat.contracts', 'cat.partner_bank_accounts'].includes(name)) {
     return false;
   }
 
