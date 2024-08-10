@@ -7,7 +7,7 @@
     "url": "https://github.com/oknosoft/metadata-auth-proxy"
   },
   "engines": {
-    "node": ">=16.13",
+    "node": ">=20.11",
     "yarn": "^1.22"
   },
   "keywords": [
@@ -34,19 +34,20 @@
     "passport": "^0.7",
     "passport-ldapauth": "^3.0",
     "pg": "^8.12",
-    "qs": "^6.12",
+    "qs": "^6.13",
     "rate-limiter-flexible": "^5.0",
     "serve-handler": "^6.1.5",
     "unzipper": "^0.12",
-    "wb-core": "github:oknosoft/windowbuilder-core#c1bf8f824d6a3909255920fca917733782d48169",
+    "wb-core": "github:oknosoft/windowbuilder-core#14ef9db5714be5918b1a4f73149bd255900503d5",
     "wb-cutting": "github:oknosoft/genetic-cutting#02a9e2404945511dab697c7e266aade83b79534b",
     "wb-paperless": "github:oknosoft/paperless#619a77020a719c75319a181ae91beb657f4719b5",
     "wb-parametric": "github:oknosoft/windowbuilder-parametric#2d7778c68ddc7584bf112582956d2356b7c18e5f",
-    "wb-planning": "github:oknosoft/windowbuilder-planning#1475c64ddf99600f876d1573d07047b7a91870cb",
-    "wb-reports": "github:oknosoft/windowbuilder-reports#5e8106967528626897a880d296af1d2526bea46b",
+    "wb-planning": "github:oknosoft/windowbuilder-planning#680544b36bfea151ff71013bf62acf209aaa32ac",
+    "wb-reports": "github:oknosoft/windowbuilder-reports#ed3e3e72cc5201e5ce107ac857655c56c6c05bac",
     "yamljs": "^0.3.0"
   },
   "devDependencies": {},
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "analyze": "webpack-bundle-analyzer scripts/stats.json",
     "server": "node server",
