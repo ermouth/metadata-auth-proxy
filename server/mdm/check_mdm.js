@@ -25,6 +25,9 @@ module.exports = function check_mdm({o, name, abonent, branch, abranches, job_pr
   else if(name === 'cch.predefined_elmnts' || name === 'cat.formulas') {
     return !o.disabled && (o.context !== 2);
   }
+  else if(name === 'cat.margin_coefficients') {
+    return [abonent, branch].includes(o.owner);
+  }
 
   if(abonent.no_mdm && branch.empty() || branch.no_mdm || job_prm.server.no_mdm) {
     return true;

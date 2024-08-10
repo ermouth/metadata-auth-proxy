@@ -88,7 +88,7 @@ module.exports = {
     Object.values(job_prm.nom).forEach((obj) => {
       if(!obj.is_folder) {
         res = res.then(() => this.links(obj));
-      };
+      }
     });
 
     // формируем кеш по массиву входящих ссылок
