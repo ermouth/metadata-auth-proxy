@@ -27,7 +27,7 @@ module.exports = function check_mdm({o, name, abonent, branch, abranches, job_pr
   }
   else if(name === 'cat.margin_coefficients') {
     const {owner} = o;
-    return [abonent, branch].includes(owner) || owner._hierarchy(branch);
+    return [abonent, branch].includes(owner) || (owner.owner === abonent && owner._hierarchy(branch));
   }
 
   if(abonent.no_mdm && branch.empty() || branch.no_mdm || job_prm.server.no_mdm) {
