@@ -14,28 +14,6 @@ const load_predefined = require('./load_predefined');
 const dyn_mdm = require('./dyn_mdm');
 require('../http/promisify');
 
-// корректировка данных
-function patch(o, name) {
-  if(!o.toJSON) {
-    return o;
-  }
-  const v = o.toJSON();
-
-  // физлиц храним внутри пользователей
-  if(name === 'cat.users') {
-    if(!o.individual_person.empty()) {
-      v.person = o.individual_person.toJSON();
-    }
-  }
-  //прочищаем спецификацию характеристики со статусом Шаблон
-  else if(name === 'cat.characteristics') {
-    if(o.obj_delivery_state == o.obj_delivery_state._manager.Шаблон) {
-      v.specification.length = 0;
-    }
-  }
-  return v;
-}
-
 // оповещает клиентский поток об изменениях
 // TODO заменить на регистрацию клиента и обход зарегистрированных для поддержки многопоточности
 function notify(abonent, branch, types, port) {
@@ -294,6 +272,35 @@ module.exports = function auto_recalc($p, log) {
     },
 
   };
+
+  // корректировка данных
+  function patch(o, name, abonent) {
+    if(!o.toJSON) {
+      return o;
+    }
+    const v = o.toJSON();
+
+    // физлиц храним внутри пользователей
+    if(name === 'cat.users') {
+      if(!o.individual_person.empty()) {
+        v.person = o.individual_person.toJSON();
+      }
+    }
+    //прочищаем спецификацию характеристики со статусом Шаблон
+    else if(name === 'cat.characteristics') {
+      if(o.obj_delivery_state == o.obj_delivery_state._manager.Шаблон) {
+        v.specification.length = 0;
+      }
+    }
+    // возможно, для свойства заданы умолчания
+    else if(name === 'cch.properties') {
+      const row = ireg.predefined_elmnts.find({property: o, obj: abonent});
+      if(row) {
+        v.by_default = {value: row.value?.valueOf(), txt_row: row.txt_row};
+      }
+    }
+    return v;
+  }
 
   function mkpaths(zone, suffix = 'common') {
     // путь кеша текущей зоны
