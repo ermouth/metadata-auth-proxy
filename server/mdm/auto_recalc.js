@@ -293,10 +293,15 @@ module.exports = function auto_recalc($p, log) {
       }
     }
     // возможно, для свойства заданы умолчания
-    else if(name === 'cch.properties') {
-      const row = ireg.predefined_elmnts.find({property: o, obj: abonent});
-      if(row) {
-        v.by_default = {value: row.value?.valueOf(), txt_row: row.txt_row};
+    else if(name === 'cch.properties' && !o.predefined_name.includes('/')) {
+      let drow;
+      ireg.predefined_elmnts.find_rows({property: o}, (row) => {
+        if(!drow || row.obj === abonent) {
+          drow = row;
+        }
+      });
+      if(drow) {
+        v.by_default = {value: drow.value?.valueOf(), txt_row: drow.txt_row};
       }
     }
     return v;
