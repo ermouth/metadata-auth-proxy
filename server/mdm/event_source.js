@@ -36,13 +36,9 @@ module.exports = function event_source({adapters: {pouch}, utils, wsql, cat: {us
       // ничего не делаем, по замыслу, браузер должен узнать об изменениях автоматом, после пересчета образа номенклатуры будет вызван mdm_change()
       // log('nom_price');
     },
-    pay(attr) {
-      const {evt_id, ...othes} = attr;
-      const data = `event: pay\ndata: ${JSON.stringify(othes)}\n`;
+    post(doc) {
+      const data = `event: post\ndata: ${JSON.stringify(doc)}\n`;
       for(const res of resps) {
-        if(evt && evt.id && res.evt_id !== evt_id) {
-          continue;
-        }
         res.posti++;
         res.write(`${data}id: ${res.posti}\n\n`);
       }
@@ -78,7 +74,7 @@ module.exports = function event_source({adapters: {pouch}, utils, wsql, cat: {us
     return (req.connection.remoteAddress.includes('127.0.0.1') ? Promise.resolve(true) : auth(req, res))
       .then(async (user) => {
         if(user) {
-          if(['broadcast', 'mdm_change'].includes(paths[2])) {
+          if(['broadcast', 'mdm_change', 'post'].includes(paths[2])) {
             return getBody(req)
               .then((data) => {
                 pouch.emit_async(paths[2], JSON.parse(data));
