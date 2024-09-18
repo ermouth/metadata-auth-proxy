@@ -52,34 +52,42 @@ module.exports = function ($p, log) {
     }
 
     // разрешаем по путям
-    let allow = [
+    let isAllowed = [
       /^get /,
       /^post auth\/couchdb/,
       /^post [a-z]+_\d+_(doc|ram)\/_(all_docs|find)/,
       /^post [a-z]+_\d+_doc\/doc\.calc_order/,
     ].reduce((a, re) => a || re.test(combo), false);
 
-    console.log('+++++ ' + allow + ' ' + combo);
+    //console.log('+++++ ' + isAllowed + ' ' + combo);
 
-    if (!allow) {
+    if (!isAllowed) {
       end403({req, res, err: 'Не разрешено для архивов', log});
       return true;
     }
 
-    // проверяем авторизацию локально
-    var user;
-    try { user = await auth(req, res) } catch(err) {
-      end401({req, res, err:'Неверный логин/пароль', log});
-      return true;
-    }
-    if (
-      !user || 
-      !user.roles.includes('doc_full') &&
-      !user.roles.includes('_admin') &&
-      !user.acl_objs._obj.some(r => r.type == 'ПросмотрАрхивов')
-    ) {
-      end401({req, res, err: paths.join('/'), log});
-      return true;
+    // разрешаем доступ без авторизации
+    let isPublic = [
+      /^get mdm\//,
+    ].reduce((a, re) => a || re.test(combo), false);
+
+    if (!isPublic) {
+      // проверяем авторизацию локально
+      var user;
+      try { user = await auth(req, res) } catch(err) {
+        end401({req, res, err:'Неверный логин/пароль', log});
+        return true;
+      }
+
+      if (
+        !user || !user.roles || !user.acl_objs || 
+        !user.roles.includes('doc_full') &&
+        !user.roles.includes('_admin') &&
+        !user.acl_objs._obj.some(r => r.type == 'ПросмотрАрхивов')
+      ) {
+        end401({req, res, err: paths.join('/'), log});
+        return true;
+      }
     }
 
     const un = conf.user_node,
