@@ -38,6 +38,14 @@ module.exports = {
     });
 
   },
+  end403({req, res, err, log}) {
+    log(...ip({req, res, err}));
+    end(res, {
+      error: true,
+      status: 403,
+      message: `Forbidden '${req.method} ${req.url}'`,
+    });
+  },
   end404(res, path) {
     end(res, {
       error: true,

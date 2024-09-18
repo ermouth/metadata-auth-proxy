@@ -24,6 +24,7 @@ module.exports = function ($p, log, worker) {
   const couchdbProxy = require('./proxy-couchdb')($p, log);
   const commonProxy = require('./proxy-common');
   const staticProxy = require('./static');
+  const archiveProxy = require('./proxy-archive')($p, log);
   const auth = require('../auth')($p, log);
   const adm = require('./adm')($p, log, auth);
   const mdm = require('../mdm')($p, log);
@@ -36,25 +37,6 @@ module.exports = function ($p, log, worker) {
     duration: conf.server.rater.ip.interval,
     timeoutMs: 3000 // Promise is rejected, if master doesn't answer for 3 secs
   });
-
-  function proxy_by_year(req, res) {
-    const {year, zone} = req.headers;
-    if(zone && year) {
-      const key = parseFloat(year);
-      if(key !== conf.server.year || !conf.server.abonents.includes(parseFloat(zone))) {
-        const abonent = abonents.by_id(zone);
-        if(!abonent.is_new()) {
-          const yrow = abonent.servers.find({key});
-          if(yrow?.proxy) {
-            const proxy_server = proxy[yrow.proxy.startsWith('https://') ? 'https' : 'http'];
-            delete req.headers.year;
-            proxy_server.web(req, res, {target: yrow.proxy});
-            return true;
-          }
-        }
-      }
-    }
-  }
 
   function handler(req, res) {
     // проверяем лимит запросов в секунду
@@ -97,8 +79,8 @@ module.exports = function ($p, log, worker) {
         //   log(`${key}: ${rateLimiterRes.remainingPoints}`);
         // }
 
-        // стартовая маршрутизация по году и зоне
-        if(proxy_by_year(req, res)) {
+        // проба маршрутизации на архив
+        if(await archiveProxy(req, res)) {
           return ;
         }
 

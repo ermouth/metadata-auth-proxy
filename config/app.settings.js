@@ -133,6 +133,9 @@ module.exports = function settings(prm = {}) {
       templates: Boolean(process.env.DBTEMPLATES),
       secret: process.env.COUCHSECRET,
     },
+    archive_node:{
+      authorization: process.env.ARCHIVE_AUTH || '' // 'YWRtaW46YWRtaW4=' is admin:admin
+    }
   });
 
 };

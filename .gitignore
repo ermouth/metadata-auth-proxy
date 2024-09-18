@@ -22,10 +22,12 @@ coverage/
 !/server/mdm/foroom/.gitkeep
 
 # Private config files
-
+.env
+*.env
 
 # npm files
 node_modules
+package-lock.json
 *.lock
 *.log
 
