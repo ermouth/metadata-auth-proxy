@@ -20,15 +20,18 @@ module.exports = function ($p, log) {
         auth = require('../auth')($p, log),
         conf = require('../../config/app.settings')();
 
+  proxyThisYear = conf.archive_node.proxyThisYear;
+
   return async function proxy_by_year(req, res) {
     const {year, zone} = req.headers;
-    if (!zone || !year) return;
+    if (!zone) return;
 
-    const key = parseFloat(year),
+    const key = parseFloat(year) || conf.server.year,
           abonent = abonents.by_id(zone);
-    if(key == conf.server.year || abonent.is_new()) return;
+    if(abonent.is_new()) return;
+    if(key == conf.server.year && !proxyThisYear) return;
 
-    const yrow = abonent.servers.find({key});
+    var yrow = abonent.servers.find({key});
     if(!yrow || !yrow.proxy) return;
 
     // TODO:
@@ -55,7 +58,7 @@ module.exports = function ($p, log) {
     let isAllowed = [
       /^get /,
       /^post auth\/couchdb/,
-      /^post [a-z]+_\d+_(doc|ram)\/_(all_docs|find)/,
+      /^post [a-z]+_\d+_(doc|ram)\/_(all_docs|find|bulk_get)/,
       /^post [a-z]+_\d+_doc\/doc\.calc_order/,
     ].reduce((a, re) => a || re.test(combo), false);
 
@@ -91,12 +94,21 @@ module.exports = function ($p, log) {
     }
 
     const un = conf.user_node,
-          authToken = conf.archive_node.authorization || Buffer.from(`${un.username}:${un.password}`).toString('base64'),
-          proxy_server = proxy[yrow.proxy.startsWith('https://') ? 'https' : 'http'];
+          an = conf.archive_node,
+          authToken = an.authorization || Buffer.from(`${un.username}:${un.password}`).toString('base64');
 
     req.headers.authorization = 'Basic ' + authToken;
-    delete req.headers.year;
 
+    if (an.proxies && an.proxies[zone]) {
+      // идём на auth-proxy зоны текущего года, год не сбрасываем
+      yrow = { proxy: an.proxies[zone] };
+    } 
+    else {
+      // идём прямо на auth-proxy архива, сбрасываем год
+      delete req.headers.year;
+    }
+
+    const proxy_server = proxy[yrow.proxy.startsWith('https://') ? 'https' : 'http'];
     proxy_server.web(req, res, {target: yrow.proxy});
     
     return true;

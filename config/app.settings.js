@@ -134,7 +134,23 @@ module.exports = function settings(prm = {}) {
       secret: process.env.COUCHSECRET,
     },
     archive_node:{
-      authorization: process.env.ARCHIVE_AUTH || '' // 'YWRtaW46YWRtaW4=' is admin:admin
+      // Токен юзера-вездехода для доступа к архивам,
+      // например 'YWRtaW46YWRtaW4=' для admin:admin
+      authorization: process.env.ARCHIVE_AUTH || '', // 
+
+      // Проксировать только запросы к прошлым годам
+      proxyThisYear: Boolean(process.env.ARCHIVE_PROXY_THIS_YEAR),
+
+      // Перекрывает настройки серверов по абонентам(зонам)/годам в wb_meta.
+      // Если зона прописана в env-переменной, архивный запрос передаётся 
+      // в указанный прокси, при этом Year в заголовках НЕ сбрасывается.
+      // Например ARCHIVE_PROXIES='10@http://zone.wb.addr, 21@http://another.zone.wb'
+      proxies: Object.fromEntries( 
+        (process.env.ARCHIVE_PROXIES || '')
+        .split(/,\s*/)
+        .map(e => e.split(/[@|]/))
+        .filter(e => e.length==2 && /^[0-9]+$/.test(e[0]))
+      )
     }
   });
 
