@@ -50,7 +50,7 @@ module.exports = function ($p, log) {
 
     // put, delete не разрешены
     if (!/^(get|post|options|head)$/.test(method)) {
-      end403({req, res, err: 'Метод не разрешен для архива', log});
+      end403({req, res, err: 'Метод не разрешен для архива.', log});
       return true;
     }
 
@@ -65,7 +65,7 @@ module.exports = function ($p, log) {
     //console.log('+++++ ' + isAllowed + ' ' + combo);
 
     if (!isAllowed) {
-      end403({req, res, err: 'Не разрешено для архивов', log});
+      end403({req, res, err: 'Не разрешено для архивов.', log});
       return true;
     }
 
@@ -78,7 +78,7 @@ module.exports = function ($p, log) {
       // проверяем авторизацию локально
       var user;
       try { user = await auth(req, res) } catch(err) {
-        end401({req, res, err:'Неверный логин/пароль', log});
+        end401({req, res, err:'Неверный логин/пароль.', log});
         return true;
       }
 
@@ -100,6 +100,7 @@ module.exports = function ($p, log) {
     req.headers.authorization = 'Basic ' + authToken;
 
     if (an.proxies && an.proxies[zone]) {
+      // Режим киоска, 
       // идём на auth-proxy зоны текущего года, год не сбрасываем
       yrow = { proxy: an.proxies[zone] };
     } 

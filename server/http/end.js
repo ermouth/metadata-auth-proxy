@@ -34,7 +34,7 @@ module.exports = {
     end(res, {
       error: true,
       status: 401,
-      message: `Unauthorized ${err.stack || err.message || ''}`,
+      message: `Запрос не авторизован ${err.stack || err.message || ''}`,
     });
 
   },
@@ -43,14 +43,14 @@ module.exports = {
     end(res, {
       error: true,
       status: 403,
-      message: `Forbidden '${req.method} ${req.url}'`,
+      message: typeof err == 'string' ? err : `Не разрешено '${req.method} ${req.url}'`,
     });
   },
   end404(res, path) {
     end(res, {
       error: true,
       status: 404,
-      message: `path '${path}' not available`,
+      message: `Путь '${path}' не существует`,
     });
   },
   end500({req, res, err, log}) {
@@ -58,7 +58,7 @@ module.exports = {
     end(res, {
       error: true,
       status: err.status || 500,
-      message: err.message || 'unknown error',
+      message: err.message || 'Ошибка сервера',
     });
   }
 };
